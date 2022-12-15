@@ -14,10 +14,10 @@ router.post("/", async (req, res) => {
     let folderName = Math.random().toString(36).substring(2, 10);
 
     await fs.mkdir(
-      `/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}`
+      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`
     );
     await fs.writeFile(
-      `/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}/code.js`,
+      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.js`,
       code
     );
 
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)}`;
 
     let output = await JsCompiler(
-      `/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}/code.js`,
+      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.js`,
       vargs
     );
     let msg;
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
     res.status(200).json({ output, metrics });
 
     await fs.rm(
-      `/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}`,
+      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`,
       { recursive: true, force: true }
     );
   } catch (err) {
