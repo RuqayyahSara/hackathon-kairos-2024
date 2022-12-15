@@ -1,6 +1,6 @@
 import express from "express";
 import config from "config";
-import path from "path"
+import path from "path";
 import { fileURLToPath } from "url";
 
 import cRouter from "./controllers/C/index.js";
