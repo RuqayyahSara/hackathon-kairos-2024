@@ -39,11 +39,10 @@ router.post("/", async (req, res) => {
       const obs = new PerformanceObserver((list) => {
         metrics.time = (list.getEntries()[0].duration / 1000).toFixed(6);
         obs.disconnect();
-      });
+      })
       obs.observe({ entryTypes: ["function"] });
-      wrapped();
+      await wrapped();
       metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)}`;
-      if (!metrics.time) metrics.time = 0;
       let output2 = await Cbinary(vargs);
       if (output2.statuscode || output2.statuscode == null)
         msg = "Runtime error";

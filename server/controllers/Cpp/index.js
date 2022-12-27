@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
         obs.disconnect();
       });
       obs.observe({ entryTypes: ["function"] });
-      wrapped();
+      await wrapped();
       metrics.memory = `${Math.floor(
         process.memoryUsage().heapUsed / 1024
       )} KB`;

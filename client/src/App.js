@@ -12,10 +12,16 @@ function App() {
   });
 
   useEffect(() => {
-    localStorage.removeItem("code");
-  }, []);
+    let codes = localStorage.getItem(`${code.language}`)
+    setCode({
+      ...code,
+      code: codes,
+    });
+    // eslint-disable-next-line
+  }, [])
+
   let onChangeHandler = (e) => {
-    localStorage.setItem("code", code.code);
+    localStorage.setItem(`${code.language}`, code.code);
     setCode({
       ...code,
       [e.target.name]: e.target.value,
@@ -24,17 +30,25 @@ function App() {
 
   let onSubmitHandler = async (e) => {
     try {
+      localStorage.setItem(`${code.language}`, code.code);
       e.preventDefault();
       setLoading(true);
+      // setTimeout()
       let res;
-      if (code.language === "Python2") res = await axios.post("/py2", code);
-      else if (code.language === "C") res = await axios.post("/c", code);
+      if (code.language === "Python2")
+        res = await axios.post("/py2", code);
+      else if (code.language === "C") {
+        res = await axios.post("/c", code);
+        console.log(res.data.metrics)
+      }
       else if (code.language === "Python3")
         res = await axios.post("/py3", code);
       else if (code.language === "JavaScript")
         res = await axios.post("/js", code);
-      else if (code.language === "Ruby") res = await axios.post("/rb", code);
-      else if (code.language === "Cpp") res = await axios.post("/cpp", code);
+      else if (code.language === "Ruby")
+        res = await axios.post("/rb", code);
+      else if (code.language === "Cpp")
+        res = await axios.post("/cpp", code);
       else res = await axios.post("/sh", code);
       // console.log(res.data)
       setOutput(res.data);
@@ -77,11 +91,12 @@ function App() {
               <select
                 name="language"
                 onChange={(e) => {
+                  let codes = localStorage.getItem(`${e.target.value}`)
                   setCode({
                     ...code,
                     language: e.target.value,
+                    code: codes ? codes : ""
                   });
-                  localStorage.removeItem("code");
                 }}
               >
                 <option value="JavaScript">JavaScript</option>
@@ -106,8 +121,7 @@ function App() {
                       ...code,
                       code: event.target.result,
                     });
-                    localStorage.setItem("code", code.code);
-                    console.log(event.target.result);
+                    localStorage.setItem(`${code.language}`, code.code);
                   };
                   reader.readAsText(file);
                 }}
@@ -125,15 +139,16 @@ function App() {
             />
             <br />
             <br />
+            {loading && (
+              <div style={{ marginLeft: "76%", display: "flex", fontFamily: "sans-serif", fontSize: "small" }}>
+                <img src={spinner} alt="spinner" width={25} style={{ margin: "-5px" }} /> &nbsp;
+                Submission queued
+              </div>
+            )}
             <br />
 
+
             <button type="submit" style={{ marginLeft: "70%" }}>
-              {loading && (
-                <>
-                  <img src={spinner} alt="spinner" width={16} />
-                  &nbsp;
-                </>
-              )}
               Run
             </button>
             <br />
@@ -227,8 +242,8 @@ function App() {
                         output.output.stderr
                           ? output.output.stderr
                           : output.output.err.code
-                          ? output.output.err.code
-                          : output.output.err.signal
+                            ? output.output.err.code
+                            : output.output.err.signal
                       }
                     />
                   </>
