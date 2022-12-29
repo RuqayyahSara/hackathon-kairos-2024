@@ -1,7 +1,7 @@
-const express = require("express")
-const fs = require('fs/promises')
-const { execFile } = require("child_process");
-const { performance, PerformanceObserver } = require("perf_hooks")
+import { execFile } from "child_process";
+import express from "express";
+import fs from "fs/promises";
+import { performance, PerformanceObserver } from "perf_hooks";
 
 const router = express.Router();
 
@@ -83,8 +83,6 @@ function BashDeleteContainer(fileName) {
             output.statuscode = statuscode
             resolve(output);
         });
-    })
+    });
 }
-
-
-module.exports = router;
+export default router;
