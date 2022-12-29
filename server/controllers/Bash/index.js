@@ -22,16 +22,16 @@ router.post("/", async (req, res) => {
         metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)} KB`;
 
         let output = await BashDocker(code)
-        if (output.statuscode || output.statuscode == null)
+       if (output.statuscode !== 1 || output.statuscode !== null)
+         msg = 'Successfully executed'
+        else
             msg = 'Error'
-        else{
-            msg = 'Successfully executed'
-            let output2 = await BashDeleteContainer(`/var/lib/jenkins/workspace/compiler/server/workspaces/${language}/code.sh`)
+        output.msg = msg
+        res.status(200).json({ output, metrics });
+        if (output.statuscode !== 1 || output.statuscode !== null) {  
+            let output2 = await BashDeleteContainer(`/var/lib/jenkins/workspace/compiler/server/workspaces/Bash/code.sh`)
             console.log(output2)
         }
-        output.msg = msg
-        console.log(output)
-        res.status(200).json({ output, metrics });
 
     } catch (error) {
         console.error(error);
@@ -66,7 +66,7 @@ function BashDeleteContainer(fileName) {
     return new Promise((resolve, reject) => {
         let output = {};
 
-        const child = execFile("bash", [fileName], (err, stdout, stderr) => {
+        const child = execFile("bash", [`${fileName}`], (err, stdout, stderr) => {
             if (stdout) {
                 output.stdout = stdout;
                 // console.log(stdout);
