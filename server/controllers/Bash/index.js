@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
     try {
         let { code, language } = req.body
-        let metrics = {}
+        let metrics = {}, msg
         console.log(req.body)
 
         //Trigger Compiler SysCall
