@@ -42,7 +42,8 @@ router.post("/", async (req, res) => {
 function BashDocker(code) {
     return new Promise((resolve, reject) => {
         let output = {};
-        const child = execFile("sudo", ['docker', 'run', 'myubuntu', code.split(" ")].flat() , { maxBuffer: 1024 * 90, timeout: 6000 }, (err, stdout, stderr) => {
+       let codes = code.split(" ")
+        const child = execFile("sudo", ['docker', 'run', 'myubuntu', codes].flat() , { maxBuffer: 1024 * 90, timeout: 6000 }, (err, stdout, stderr) => {
             if (stdout) {
                 output.stdout = stdout;
                 // console.log(stdout);
