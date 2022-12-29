@@ -1,6 +1,6 @@
 import { execFile } from "child_process";
 import express from "express";
-import fs from "fs/promises";
+import fs from "fs/promises"
 import { performance, PerformanceObserver } from "perf_hooks";
 
 const router = express.Router();
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 function BashDocker(code) {
     return new Promise((resolve, reject) => {
         let output = {};
-        const child = execFile("sudo", ['docker', 'run', 'myubuntu', `${code}`], { maxBuffer: 1024 * 90, timeout: 6000 }, (err, stdout, stderr) => {
+        const child = execFile("sudo", ['docker', 'run', 'myubuntu', code.split(" ")].flat() , { maxBuffer: 1024 * 90, timeout: 6000 }, (err, stdout, stderr) => {
             if (stdout) {
                 output.stdout = stdout;
                 // console.log(stdout);
