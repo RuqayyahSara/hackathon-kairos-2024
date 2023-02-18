@@ -19,6 +19,7 @@ const __dirname = path.dirname(__filename); //
 
 const app = express();
 const port = process.env.PORT || config.get("PORT");
+const numCpu = os.cpus().length;
 /*
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "build")));
