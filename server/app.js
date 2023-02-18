@@ -2,6 +2,8 @@ import express from "express";
 import config from "config";
 import path from "path"
 import { fileURLToPath } from "url";
+import os from "os";
+import cluster from "node:cluster";
 
 import cRouter from "./controllers/C/index.js";
 import javaScriptRouter from "./controllers/JavaScript/index.js";
@@ -34,6 +36,18 @@ app.use("/cpp", cppRouter);
    res.sendFile(path.join(__dirname, "build", "index.html"));
  });
 
+if (cluster.isPrimary) {
+  for (let i = 0; i < numCpu; i++) {
+    cluster.fork(); // Distribution of process to other cores
+  }
+
+  //  Event to get the killed pid
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork(); // 0 down time arch.
+  });
+} else {
   app.listen(port, () => {
     console.log(`Server Started at ${port}`);
   });
+}
