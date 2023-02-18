@@ -58,7 +58,6 @@ router.post("/", async (req, res) => {
       "mount",
       "ip -a",
       "ip addr show",
-      "ping",
       "resolvectl status",
       "host",
       "dig",
@@ -75,7 +74,6 @@ router.post("/", async (req, res) => {
       "git clone",
       "git",
       "cd /",
-      "grep",
       "node",
       "npm",
       "history",
@@ -98,12 +96,14 @@ router.post("/", async (req, res) => {
       "gcloud",
     ];      
 
-    for (let i = 0; i < noExe.length; i++) {
-      if (divide[0] == noExe[i]) {
+    for (let i = 0;i < noExe.length; i++) {
+    for (let j = 0;j < divide.length; j++){
+      if (divide[j] == noExe[i]) {
         flag = 1
         break
       }
     }
+   }
 
     if (flag == 1) {
       return res.status(200).json({
