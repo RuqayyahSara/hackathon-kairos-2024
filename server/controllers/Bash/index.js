@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {
     try {
         let { code, language } = req.body
         let metrics = {}, msg, flag = 0
-        let divide = code.split(" ")
+        let divide = code.split("\n").join("").split(" ")
         console.log(req.body)
  let noExe = [
       "rm -rf",
