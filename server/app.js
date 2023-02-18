@@ -19,7 +19,34 @@ const __dirname = path.dirname(__filename); //
 
 const app = express();
 const port = process.env.PORT || config.get("PORT");
+/*
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "build")));
 
+
+app.use("/c", cRouter);
+app.use("/js", javaScriptRouter);
+app.use("/py2", python2Router);
+app.use("/py3", python3Router);
+app.use("/sh", bashRouter);
+app.use("/rb", rubyRouter);
+app.use("/cpp", cppRouter);
+
+ app.get("/*", (req, res) => {
+   res.sendFile(path.join(__dirname, "build", "index.html"));
+ }); */
+
+if (cluster.isPrimary) {
+  for (let i = 0; i < numCpu; i++) {
+    cluster.fork(); // Distribution of process to other cores
+  }
+
+  //  Event to get the killed pid
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork(); // 0 down time arch.
+  });
+} else {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "build")));
 
@@ -36,18 +63,8 @@ app.use("/cpp", cppRouter);
    res.sendFile(path.join(__dirname, "build", "index.html"));
  });
 
-if (cluster.isPrimary) {
-  for (let i = 0; i < numCpu; i++) {
-    cluster.fork(); // Distribution of process to other cores
-  }
-
-  //  Event to get the killed pid
-  cluster.on("exit", (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-    cluster.fork(); // 0 down time arch.
-  });
-} else {
   app.listen(port, () => {
     console.log(`Server Started at ${port}`);
   });
+ console.log(`Worker ${process.pid} started`)
 }
