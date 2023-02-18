@@ -134,7 +134,7 @@ router.post("/", async (req, res) => {
         wrapped();
         metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)} KB`;
 
-        let output = await BashCompiler('/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}/code.sh')
+        let output = await BashCompiler(`/var/lib/jenkins/workspace/Cloud-compiler/server/workspaces/${language}/${folderName}/code.sh`)
        if (output.statuscode !== 1 || output.statuscode !== null)
          msg = 'Successfully executed'
         else
