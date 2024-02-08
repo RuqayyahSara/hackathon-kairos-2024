@@ -13,10 +13,10 @@ router.post("/", async (req, res) => {
     let folderName = Math.random().toString(36).substring(2, 10);
 
     await fs.mkdir(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`
+      `./workspaces/${language}/${folderName}`
     );
     await fs.writeFile(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.rb`,
+      `./workspaces/${language}/${folderName}/code.rb`,
       code
     );
 
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)}`;
     if (!metrics.time) metrics.time = 0;
     let output = await rubyCompiler(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.rb`,
+      `./workspaces/${language}/${folderName}/code.rb`,
       vargs
     );
     let msg;
@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     res.status(200).json({ success: "Received the Code", output, metrics });
 
     await fs.rm(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`,
+      `./workspaces/${language}/${folderName}`,
       { recursive: true, force: true }
     );
   } catch (error) {

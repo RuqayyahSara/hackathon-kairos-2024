@@ -118,10 +118,10 @@ router.post("/", async (req, res) => {
 
     let folderName = Math.random().toString(36).substring(2, 10);
     await fs.mkdir(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`
+      `./workspaces/${language}/${folderName}`
     );
     await fs.writeFile(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.sh`,
+      `./workspaces/${language}/${folderName}/code.sh`,
       code
     );    
         //Trigger Compiler SysCall
@@ -134,7 +134,7 @@ router.post("/", async (req, res) => {
         wrapped();
         metrics.memory = `${Math.floor(process.memoryUsage().heapUsed / 1024)} KB`;
 
-        let output = await BashCompiler(`/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.sh`)
+        let output = await BashCompiler(`./workspaces/${language}/${folderName}/code.sh`)
        if (output.statuscode !== 1 || output.statuscode !== null)
          msg = 'Successfully executed'
         else
@@ -143,7 +143,7 @@ router.post("/", async (req, res) => {
         res.status(200).json({ output, metrics });
 
  await fs.rm(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`,
+      `./workspaces/${language}/${folderName}`,
       { recursive: true, force: true }
     );
     } catch (error) {

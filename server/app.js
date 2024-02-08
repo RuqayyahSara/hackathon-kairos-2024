@@ -20,22 +20,6 @@ const __dirname = path.dirname(__filename); //
 const app = express();
 const port = process.env.PORT || config.get("PORT");
 const numCpu = os.cpus().length;
-/*
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "build")));
-
-
-app.use("/c", cRouter);
-app.use("/js", javaScriptRouter);
-app.use("/py2", python2Router);
-app.use("/py3", python3Router);
-app.use("/sh", bashRouter);
-app.use("/rb", rubyRouter);
-app.use("/cpp", cppRouter);
-
- app.get("/*", (req, res) => {
-   res.sendFile(path.join(__dirname, "build", "index.html"));
- }); */
 
 if (cluster.isPrimary) {
   for (let i = 0; i < numCpu; i++) {
@@ -49,7 +33,7 @@ if (cluster.isPrimary) {
   });
 } else {
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
 
 app.use("/c", cRouter);
@@ -60,9 +44,9 @@ app.use("/sh", bashRouter);
 app.use("/rb", rubyRouter);
 app.use("/cpp", cppRouter);
 
- app.get("/*", (req, res) => {
-   res.sendFile(path.join(__dirname, "build", "index.html"));
- });
+//  app.get("/*", (req, res) => {
+//    res.sendFile(path.join(__dirname, "build", "index.html"));
+//  });
 
   app.listen(port, () => {
     console.log(`Server Started at ${port}`);

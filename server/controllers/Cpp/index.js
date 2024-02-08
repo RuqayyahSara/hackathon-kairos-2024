@@ -14,22 +14,22 @@ router.post("/", async (req, res) => {
     let folderName = Math.random().toString(36).substring(2, 10);
 
     await fs.mkdir(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`
+      `./workspaces/${language}/${folderName}`
     );
     await fs.writeFile(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.cpp`,
+      `./workspaces/${language}/${folderName}/code.cpp`,
       code
     );
 
     let output = await CppCompiler(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}/code.cpp`
+      `./workspaces/${language}/${folderName}/code.cpp`
     );
     let msg;
     if (output.statuscode || output.statuscode == null) {
       msg = "Compilation error";
       output.msg = msg;
       await fs.rm(
-        `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`,
+        `./workspaces/${language}/${folderName}`,
         { recursive: true, force: true }
       );
       return res.status(200).json({ output });
@@ -56,7 +56,7 @@ router.post("/", async (req, res) => {
     }
     await fs.unlink(`./a.out`);
     await fs.rm(
-      `/var/lib/jenkins/workspace/Cloud-Compiler/server/workspaces/${language}/${folderName}`,
+      `./workspaces/${language}/${folderName}`,
       { recursive: true, force: true }
     );
   } catch (error) {
