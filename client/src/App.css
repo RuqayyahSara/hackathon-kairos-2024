@@ -137,7 +137,7 @@ div {
 }
 
 body {
-  background-color: rgb(241, 241, 231);
+  background-color: solid #ffffff;
 }
 
 h1 {
@@ -216,4 +216,15 @@ h1 {
       animation: App-logo-spin infinite 20s linear;
     }
   }
+  .header {
+    background-color: rgb(56, 88, 153);
+  }
+  .sidebyside{
+    text-align: center;
+  }
+  .left-div, .right-div {
+    display: inline-block;
+    width: 50%; /* Adjust as needed */
+    vertical-align: top; /* Aligns the top edge of the element with the tallest element in the line */
+}
 }
