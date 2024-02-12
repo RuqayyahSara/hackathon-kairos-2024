@@ -1,0 +1,51 @@
+{
+      "QuantitativeMetrics": {
+        "LinesOfCode": 1,
+    "CodeChurn": 0,
+    "Efficiency": 1,
+    "Cyclomatic complexity": 1,
+    "code duplication": 0
+  },
+  "QualitativeMetrics": {
+        "Readability": 1,
+    "Modularity": 1,
+    "Comments": 0,
+    "variable_naming": 1,
+    "ErrorHandling": 1
+  },
+  "PersonalityTraits": {
+        "WorkUnderPressure": {
+          "score": 7,
+      "explanation": "Can complete tasks efficiently under time constraint."
+    },
+    "Collaborator": {
+          "score": 6,
+      "explanation": "Able to work with others and contribute to team goals."
+    },
+    "Communication": {
+          "score": 8,
+      "explanation": "Able to effectively convey ideas and share information."
+    },
+    "LeadershipSkills": {
+          "score": 5,
+      "explanation": "Has potential to take on leadership roles and guide others."
+    },
+    "TimeManagement": {
+          "score": 9,
+      "explanation": "Able to effectively manage time and meet deadlines."
+    },
+    "ContinuousLearning": {
+          "score": 7,
+      "explanation": "Displays willingness to learn and adapt to new technologies."
+    },
+    "Accountability": {
+          "score": 8,
+      "explanation": "Holds themselves responsible for their actions and deliverables."
+    },
+    "CriticalThinking": {
+          "score": 6,
+      "explanation": "Able to analyze problems and find effective solutions."
+    }
+  },
+  "FinalScore": 7.5
+}
